@@ -105,7 +105,7 @@ g.LCH4maxGoods                  =   linspace(0,0.3,s.runTime); %Share of market
 
 %Set input CO2 limitations, price and GHG reference for CO2 usage
 s.co2source                     =   linspace(60,60,s.runTime);
-s.co2price                      =   50*linspace(1,1,s.runTime); %€/tCO2
+s.co2price                      =   50*linspace(1,1,s.runTime); %â‚¬/tCO2
 s.ghgRefCO2                     =   0;
 
 %Maximal usage of power mix for EVs or hydrogen (if power mix is
@@ -120,9 +120,9 @@ end
 
 % %% System data
 % %Power price & heat price for required input
-% s.powerPrice                =   10^3.*10^-2.*techData.data.demandData(10:12,1:s.runTime);%[€/MWh]
-% % s.powerPriceDevNormed       =   techData.data.demandData(8,1:s.runTime);%[€/MWh]
-% s.heatPrice                 =   10^3.*10^-2.*techData.data.demandData(15,1:s.runTime)';%[€/MWh]
+% s.powerPrice                =   10^3.*10^-2.*techData.data.demandData(10:12,1:s.runTime);%[â‚¬/MWh]
+% % s.powerPriceDevNormed       =   techData.data.demandData(8,1:s.runTime);%[â‚¬/MWh]
+% s.heatPrice                 =   10^3.*10^-2.*techData.data.demandData(15,1:s.runTime)';%[â‚¬/MWh]
 %- for process heat, see feedCost function. Possibly differentiate input and output heat price - district heating could be output heat price reference
 % s.GHGabateTarget            =   160*10^9*linspace(0.05,0.08,s.runTime); %kgCO2eq/a
 
@@ -134,14 +134,14 @@ s.plantLifeTime             =   techData.data.techInputData(1,1:s.numTech); %a
 % Technology full load hours per year (tech) [h/a]
 s.fullLoadHoursInit         =   techData.data.techInputData(2,1:s.numTech); %h/a
 s.fullLoadHoursEnd          =   techData.data.techInputData(3,1:s.numTech); %h/a
-% Technology Invest(time) [€/MWcap]
-s.plantInvCostProMWinit     =   techData.data.techInputData(4,1:s.numTech); %€/kWcap  = M€/GWcap
-s.plantInvCostProMWend      =   techData.data.techInputData(5,1:s.numTech); %€/kWcap = M€/GWcap
+% Technology Invest(time) [â‚¬/MWcap]
+s.plantInvCostProMWinit     =   techData.data.techInputData(4,1:s.numTech); %â‚¬/kWcap  = Mâ‚¬/GWcap
+s.plantInvCostProMWend      =   techData.data.techInputData(5,1:s.numTech); %â‚¬/kWcap = Mâ‚¬/GWcap
 % Maint & Operation [%/invest)
 s.plantMOInvShareInit       =   techData.data.techInputData(9,1:s.numTech)*10^-2;
 % s.plantMOInvShareEnd        =   techData.data.techInputData(10,1:s.numTech)*10^-2;
 % Labour costs
-s.plantOperLaborCost        =   techData.data.techInputData(10,1:s.numTech); %€/GJ
+s.plantOperLaborCost        =   techData.data.techInputData(10,1:s.numTech); %â‚¬/GJ
 
 %% Calculation of conversion efficency over time and capacity factor
 
@@ -239,8 +239,8 @@ for i=1:s.numTech
 end
 
 s.feed2ndMethanolAmount =   techData.data.techInputData(34,1:s.numTech); %t/GJ
-s.feed2ndH2inLow       =   techData.data.techInputData(35,1:s.numTech); %t/GJ
-s.feed2ndH2inHigh      =   techData.data.techInputData(36,1:s.numTech); %t/GJ
+s.feed2ndH2inLow       =   techData.data.techInputData(35,1:s.numTech); %GJ/GJ
+s.feed2ndH2inHigh      =   techData.data.techInputData(36,1:s.numTech); %GJ/GJ
 s.feed2ndCO2Amount     =   techData.data.techInputData(37,1:s.numTech); %t/GJ
 
 s.byProdDigestate      =   techData.data.techInputData(40,1:s.numTech); %t/GJ
@@ -304,12 +304,12 @@ s.ghgP2CH3OH(:,s.ghgP1AllocationFactor~=1)  =   ...
     techData.data.techInputData(80,s.ghgP1AllocationFactor~=1).*linspace(1,1,s.runTime)'; %MJ/t_feed_intermediate
 
 s.ghgTranspAmount       =   1+49.*techData.data.techInputData(86,1:s.numTech); %t/transport - either 1 (grid) or 50 (tanker)
-s.ghgTranspGasGridPower =   4.625.*techData.data.techInputData(85,1:s.numTech); %kWh/m³ - only for those with grid option marked "1"
-s.ghgTranspProcessHeat  =   1.6.*techData.data.techInputData(85,1:s.numTech); %MJ/m³ - only for those with grid option marked "1"
+s.ghgTranspGasGridPower =   4.625.*techData.data.techInputData(85,1:s.numTech); %kWh/mÂ³ - only for those with grid option marked "1"
+s.ghgTranspProcessHeat  =   1.6.*techData.data.techInputData(85,1:s.numTech); %MJ/mÂ³ - only for those with grid option marked "1"
 s.ghgTransp2DistFull    =   150.*techData.data.techInputData(86,1:s.numTech); %km/transport - only for those with tanker option marked "1"
 s.ghgTransp2DistEmpty   =   50.*techData.data.techInputData(86,1:s.numTech); %km/transport - only for those with tanker option marked "1"
 
-s.fuelSpecificEnergy    =   techData.data.techInputData(89,1:s.numTech); %GJ/t [CH4: /m³, unit for electricity?]
+s.fuelSpecificEnergy    =   techData.data.techInputData(89,1:s.numTech); %GJ/t [CH4: /mÂ³, unit for electricity?]
 
 s.ghgEFDiesel           =   3.14; %/l
 s.ghgEFProcessH2O       =   0.0004; %kgeq/kg
@@ -334,8 +334,8 @@ s.ghgEFCO2              =   zeros(1,s.runTime);
 
 %% VEHICLES
 s.relativeFuelEconomy   =   techData.data.techInputData(56:66,1:s.numTech)'; %GJ/GJ, relative to Petrol/Otto process, for diff. sectors
-s.vehicleCostPerVehicleStart =   techData.data.techInputData(67,1:s.numTech); %€/vehicle
-s.vehicleCostPerVehicleEnd =   techData.data.techInputData(68,1:s.numTech); %€/vehicle
+s.vehicleCostPerVehicleStart =   techData.data.techInputData(67,1:s.numTech); %â‚¬/vehicle
+s.vehicleCostPerVehicleEnd =   techData.data.techInputData(68,1:s.numTech); %â‚¬/vehicle
 % s.vehicleCost                   =   linspace(s.vehicleCostPerVehicleStart,s.vehicleCostPerVehicleEnd,s.runTime);
 
 s.eDensityPetrol        =   32.7; %MJ per liter petrol
