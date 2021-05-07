@@ -65,9 +65,8 @@ for time=1:s.runTime
     
     s.ghgP2Byprod(time,:)                   =   s.ghgP2YieldByprod.*10^3-s.ghgP2ByprodUpgradePower.*s.ghgEFPower(time); %/tFM_crop
     
-    s.ghgTransport21(time,:)                =   s.ghgTranspGasGridPower.*s.ghgEFPower(time)+s.ghgTranspProcessHeat.*s.ghgEFHeat(time,:);
-    s.ghgTransport22(time,:)                =   (s.ghgTransp2DistFull.*s.ghgTranspDieselFull+s.ghgTransp2DistEmpty.*s.ghgTranspDieselEmpty).*s.ghgEFDiesel(time)./s.ghgTranspAmount;
-    %TODO: what is happening here?:
+    s.ghgTransport21(time,:)                =   s.ghgTranspGasGridPower.*s.ghgEFPower(time)+s.ghgTranspProcessHeat.*s.ghgEFHeat(time,:); %kWh/GJ * kgCO2/kWh + MJ/GJ * kgCO2/MJ = kgCO2/GJ
+    s.ghgTransport22(time,:)                =   (s.ghgTransp2DistFull.*s.ghgTranspDieselFull+s.ghgTransp2DistEmpty.*s.ghgTranspDieselEmpty).*s.ghgEFDiesel(time)./s.ghgTranspAmount./s.fuelSpecificEnergy; %kgCO2eq/t * (GJ/t)^-1 = kgCO2eq/GJ
     s.ghgTransport2(time,:)                 =   s.ghgTransport21(time,:)+s.ghgTransport22(time,:);
     
     s.P1toGJfactor(time,:)                  =   s.ghgP1AllocationFactor.*s.ghgP2AllocationFactor...
@@ -82,8 +81,7 @@ for time=1:s.runTime
     s.ghgP1totGJ(time,:)                    =   s.ghgP1tot(time,:).*s.P1toGJfactor(time,:);
     s.ghgP2totGJ(time,:)                    =   s.ghgP2tot(time,:).*s.P2toGJfactor(time,:);
     s.ghgP2ByprodGJ(time,:)                 =   -s.ghgP2Byprod(time,:)./(s.cropFMenergyContent.*s.plantConvEta(time,:));
-    %TODO: what is happening here?:
-    s.ghgTransport2GJ(time,:)               =   s.ghgTransport2(time,:);%./(s.cropFMenergyContent.*s.plantConvEta(time,:));
+    s.ghgTransport2GJ(time,:)               =   s.ghgTransport2(time,:);
     
     %kgCo2eq/GJ
     s.fuelGHGemission(time,:)               =   s.ghgCultivationTotGJ(time,:)+s.ghgTransport1GJ(time,:)+s.ghgP1totGJ(time,:)+s.ghgP2totGJ(time,:)+s.ghgP2ByprodGJ(time,:)+s.ghgTransport2GJ(time,:);

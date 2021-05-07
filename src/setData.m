@@ -276,8 +276,8 @@ end
 s.ghgTransp1Amount      =   24; %t/transport
 s.ghgTransp1DistFull    =   80; %km/transport
 s.ghgTransp1DistEmpty   =   20; %km/transport
-s.ghgTranspDieselFull   =   0.41; %/km
-s.ghgTranspDieselEmpty  =   0.24; %/km
+s.ghgTranspDieselFull   =   0.41; %l/km
+s.ghgTranspDieselEmpty  =   0.24; %l/km
 
 s.ghgP1Heat             =   s.heatInput.*s.cropFMenergyContent.*s.plantConvEta; %kWh/GJ_fuel - conversion efficiency to kWh/tFM
 s.ghgP1Power            =   s.powerInput.*s.cropFMenergyContent.*s.plantConvEta; %kWh/GJ_fuel - converted to kWh/tFM
@@ -304,14 +304,14 @@ s.ghgP2CH3OH(:,s.ghgP1AllocationFactor~=1)  =   ...
     techData.data.techInputData(80,s.ghgP1AllocationFactor~=1).*linspace(1,1,s.runTime)'; %MJ/t_feed_intermediate
 
 s.ghgTranspAmount       =   1+49.*techData.data.techInputData(86,1:s.numTech); %t/transport - either 1 (grid) or 50 (tanker)
-s.ghgTranspGasGridPower =   4.625.*techData.data.techInputData(85,1:s.numTech); %kWh/m³ - only for those with grid option marked "1"
-s.ghgTranspProcessHeat  =   1.6.*techData.data.techInputData(85,1:s.numTech); %MJ/m³ - only for those with grid option marked "1"
+s.ghgTranspGasGridPower =   4.625.*techData.data.techInputData(85,1:s.numTech); %kWh/GJ - only for those with grid option marked "1"
+s.ghgTranspProcessHeat  =   1.6.*techData.data.techInputData(85,1:s.numTech); %MJ/GJ - only for those with grid option marked "1"
 s.ghgTransp2DistFull    =   150.*techData.data.techInputData(86,1:s.numTech); %km/transport - only for those with tanker option marked "1"
 s.ghgTransp2DistEmpty   =   50.*techData.data.techInputData(86,1:s.numTech); %km/transport - only for those with tanker option marked "1"
 
-s.fuelSpecificEnergy    =   techData.data.techInputData(89,1:s.numTech); %GJ/t [CH4: /m³, unit for electricity?]
+s.fuelSpecificEnergy    =   techData.data.techInputData(89,1:s.numTech); %GJ/t [CH4: /m�, unit for electricity?]
 
-s.ghgEFDiesel           =   3.14; %/l
+s.ghgEFDiesel           =   3.14; %kgCO2eq/l
 s.ghgEFProcessH2O       =   0.0004; %kgeq/kg
 s.ghgEFHNO3             =   1.89; %kgCO2eq/kg
 s.ghgEFNaOH             =   [0.47 1.12]; %kgCO2eq/kg
