@@ -23,10 +23,13 @@ function [s,f]=feedCost(s,f)
 
 for time=1:f.runTime
     f.priceDev(time)            =   (1+s.priceDevFactor)^(time-1);
+    %% Residue price development
+    f.resPriceMin(:,time)       =   f.resPriceIniMin(:,1).*f.priceDev(time);
+    f.resPriceMax(:,time)       =   f.resPriceIniMax(:,1).*f.priceDev(time);
 end
 
     indexWheat                  =   find(contains(f.cropNames,{'Wheat'}));
-    f.wheatIncome               =   f.wheatPriceStart*f.cropYieldFM(:,indexWheat).*f.priceDev'; %€/ha
+    f.wheatIncome               =   f.wheatPriceStart*f.cropYieldFM(:,indexWheat).*f.priceDev'; %â‚¬/ha
 
     s.labourCost                =   s.labourCostStart.*f.priceDev;
     s.dieselCost                =   s.dieselCostStart.*f.priceDev;
@@ -39,14 +42,11 @@ end
     f.cropIncomeHa              =   f.cropExpensesHa+ones(1,s.runTime).*f.cropProfit';
 
         
-    %% Residue price development
-    f.resPriceMin(:,time)       =   f.resPriceIniMin(:,1).*f.priceDev(time);
-    f.resPriceMax(:,time)       =   f.resPriceIniMax(:,1).*f.priceDev(time);
    
     %% Calculate price categories
 
-    f.cropPrice              =   f.cropIncomeHa./f.cropYieldDM'; %€/tDM
-    f.cropPriceGJBase            =   f.cropPrice./f.cropDMenergyContent'; % €/GJ
+    f.cropPrice              =   f.cropIncomeHa./f.cropYieldDM'; %â‚¬/tDM
+    f.cropPriceGJBase            =   f.cropPrice./f.cropDMenergyContent'; % â‚¬/GJ
     
     for c=1:f.cat
         for b=1:f.numCrop
@@ -61,7 +61,7 @@ end
                 f.resPrice(:,b,c)       =   f.resPriceMax(b,:);
             end
         end
-            f.powerPrice(:,1,c)     =   s.powerPrice(1,:)./3.6; %€/MWh -> Mio€/PJ (€/GJ) - Power mix price
+            f.powerPrice(:,1,c)     =   s.powerPrice(1,:)./3.6; %â‚¬/MWh -> Mioâ‚¬/PJ (â‚¬/GJ) - Power mix price
             f.powerPrice(:,2,c)     =   s.erePriceShare.*s.powerPrice(1,:)./3.6; %Excess electricity price %zeros(s.runTime,1)
     end
     
